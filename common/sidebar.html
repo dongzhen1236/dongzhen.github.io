@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<nav id="sidebar-top" th:fragment="nav" class="navbar navbar-custom navbar-fixed-top" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header" >
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="index"><span>[[${logoText}]]</span>#<span>#</span></a>
+					<ul class="nav navbar-top-links navbar-right">
+						<li class="dropdown">
+							<a class="dropdown-toggle count-info" data-toggle="dropdown" title="工具" >
+								<em class="fa fa-plus" ></em>
+								<!--<b class="caret" style="margin: 0px -6px;"></b>-->
+							</a>
+							<ul class="dropdown-menu" id="tools-menu">
+								<li><a href="javaScript:void(0)" id="open-note"><i class="fa fa-send">&nbsp;</i> 打开记事本</a></li>
+								<li><a href="javascript:void(0)" id="open-calc"><i class="fa fa-send">&nbsp;</i> 打开计算器</a></li>
+								<li class="divider"></li>
+								<li><a href="javascript:void(0)" id="open-cmd"><i class="fa fa-send">&nbsp;</i> 命令行</a></li>
+								<li></li><!-- 调整最后一个li标签有右边距 -->
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+								<em class="fa fa-envelope"></em>
+								<span class="label label-info">15</span>
+							</a>
+							<ul class="dropdown-menu dropdown-messages">
+								<li>
+									<div class="dropdown-messages-box">
+										<a href="profile.html" class="pull-left">
+											<img alt="image" class="img-circle" th:src="@{/assets/images/profile-pic-2.jpg}" width="40">
+										</a>
+										<div class="message-body">
+											<small class="pull-right">3 mins ago</small>
+											<a href="#"><strong>John Doe</strong> commented on <strong>your photo</strong>.</a>
+											<br />
+											<small class="text-muted">1:24 pm - 25/03/2015</small>
+										</div>
+									</div>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<div class="dropdown-messages-box">
+										<a href="profile.html" class="pull-left">
+											<img alt="image" class="img-circle" th:src="@{/assets/images/profile-pic-1.jpg}" width="40">
+										</a>
+										<div class="message-body">
+											<small class="pull-right">1 hour ago</small>
+											<a href="#">New message from <strong>Jane Doe</strong>.</a>
+											<br />
+											<small class="text-muted">12:27 pm - 25/03/2015</small>
+										</div>
+									</div>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<div class="all-button"><a href="#">
+										<em class="fa fa-inbox"></em>
+										<strong>All Messages</strong>
+									</a></div>
+								</li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+								<em class="fa fa-bell"></em>
+								<span class="label label-primary">5</span>
+							</a>
+							<ul class="dropdown-menu dropdown-alerts">
+								<li>
+									<a href="#">
+										<div>
+											<em class="fa fa-envelope"></em> 1 New Message
+											<span class="pull-right text-muted small">3 mins ago</span>
+										</div>
+									</a>
+								</li>
+								<li class="divider"></li>
+								<li><a href="#">
+									<div><em class="fa fa-heart"></em> 12 New Likes
+										<span class="pull-right text-muted small">4 mins ago</span></div>
+								</a></li>
+								<li class="divider"></li>
+								<li><a href="#">
+									<div><em class="fa fa-user"></em> 5 New Followers
+										<span class="pull-right text-muted small">4 mins ago</span></div>
+								</a></li>
+							</ul>
+						</li>
+					</ul>
+					<ul class="navbar-right theme-switcher">
+						<li><span>Choose Theme:</span></li>
+						<li><a href="#" title="Default" data-theme="default" class="theme-btn theme-btn-default">Default</a></li>
+						<li><a href="#" title="Iris" data-theme="iris" class="theme-btn theme-btn-iris">Iris</a></li>
+						<li><a href="#" title="Midnight" data-theme="midnight" class="theme-btn theme-btn-midnight">Midnight</a></li>
+						<li><a href="#" title="Lime" data-theme="lime"  class="theme-btn theme-btn-lime">Lime</a></li>
+						<li><a href="#" title="Rose" data-theme="rose" class="theme-btn theme-btn-rose">Rose</a></li>
+					</ul>
+				</div>
+			</div><!-- /.container-fluid -->
+		</nav>
+
+		<div id="sidebar-left" th:fragment="menu(show, active)" class="col-sm-3 col-lg-2 sidebar">
+			<div class="profile-sidebar">
+				<div class="profile-userpic">
+					<img th:src="@{/assets/images/profile-pic-1.jpg}" width="60" alt="User Avatar" class="img-circle" />
+				</div>
+				<div class="profile-usertitle">
+					<span>欢迎您</span>
+					<div class="profile-usertitle-name">[[${session.SPRING_SECURITY_CONTEXT.authentication.principal.username}]]</div>
+<!--					<div class="profile-usertitle-name">[[${session.SPRING_SECURITY_CONTEXT.authentication.principal.username}]]</div>-->
+<!--					<div class="profile-usertitle-status"><span class="indicator label-success"></span>Online</div>-->
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="divider"></div>
+			<!--<form role="search">-->
+				<!--<div class="form-group">-->
+					<!--<input type="text" class="form-control" placeholder="Search">-->
+				<!--</div>-->
+			<!--</form>-->
+			<ul class="nav menu">
+				<li th:class="${active == 'index' ? 'active' : ''}">
+					<a href="index"><em class="fa fa-home">&nbsp;</em> 主页</a>
+				</li>
+				<li th:class="${active == 'file1' ? 'active' : ''}">
+					<a href="index"><em class="fa fa-calendar">&nbsp;</em> 学习</a>
+				</li>
+				<li class="parent">
+					<a data-toggle="collapse" href="#sub-item-1">
+						<em class="fa fa-file-o">&nbsp;</em> 文件管理
+						<span data-toggle="collapse" href="#sub-item-1" class="icon pull-right">
+							<i th:class="${show} == 'file' ? 'fa fa-chevron-up' : 'fa fa-chevron-down'" class="fa fa-chevron-down"></i>
+						</span>
+					</a>
+					<ul id="sub-item-1"
+						th:class="${show} == 'file' ? 'children collapse in' : 'children collapse'"
+						th:aria-expanded="${show} == 'file' ? true : false"
+						th:style="${show} == 'file' ? '' : 'height: 0px;'">
+						<li th:class="${active == 'file' ? 'active' : ''}"><a href="file"><em class="fa fa-file-o">&nbsp;</em> 文件大小统计</a></li>
+						<li th:class="${active == 'file1' ? 'active' : ''}"><a href="file"><em class="fa fa-file-o">&nbsp;</em> 文件统计</a></li>
+					</ul>
+				</li>
+				<li class="parent" id="sidebar-system">
+					<a data-toggle="collapse" href="#sub-item-2">
+						<em class="fa fa-file-o">&nbsp;</em> 系统管理
+						<span data-toggle="collapse" href="#sub-item-2" class="icon pull-right">
+							<i th:class="${show} == 'system' ? 'fa fa-chevron-up' : 'fa fa-chevron-down'" class="fa fa-chevron-down"></i>
+						</span>
+					</a>
+					<ul id="sub-item-2"
+						th:class="${show} == 'system' ? 'children collapse in' : 'children collapse'"
+						th:aria-expanded="${show} == 'system' ? true : false"
+						th:style="${show} == 'system' ? '' : 'height: 0px;'">
+						<li id="li-user" th:class="${active == 'user' ? 'active' : ''}"><a th:href="@{/user}"><em class="fa fa-file-o">&nbsp;</em> 用户管理</a></li>
+						<li id="li-role" th:class="${active == 'role' ? 'active' : ''}"><a th:href="@{/role}"><em class="fa fa-file-o">&nbsp;</em> 角色管理</a></li>
+						<li id="li-perm" th:class="${active == 'user1' ? 'active' : ''}"><a th:href="@{/user}"><em class="fa fa-file-o">&nbsp;</em> 权限管理</a></li>
+					</ul>
+				</li>
+				<li class="parent">
+					<a data-toggle="collapse" href="#sub-item-3">
+						<em class="fa fa-magic">&nbsp;</em> 其他
+						<span data-toggle="collapse" href="#sub-item-3" class="icon pull-right">
+							<i th:class="${show} == 'other' ? 'fa fa-chevron-up' : 'fa fa-chevron-down'" class="fa fa-chevron-down"></i>
+						</span>
+					</a>
+					<ul id="sub-item-3"
+						th:class="${show} == 'other' ? 'children collapse in' : 'children collapse'"
+						th:aria-expanded="${show} == 'other' ? true : false"
+						th:style="${show} == 'other' ? '' : 'height: 0px;'">
+						<li th:class="${active == 'special' ? 'active' : ''}"><a href="special"><em class="fa fa-file-o">&nbsp;</em> 特效界面</a></li>
+						<li th:class="${active == 'special1' ? 'active' : ''}"><a href="special"><em class="fa fa-file-o">&nbsp;</em> XXXX</a></li>
+					</ul>
+				</li>
+				<li role="presentation" class="divider"></li>
+				<li th:class="${active} == 'profile' ? 'active' : ''">
+					<a href="#"><em class="fa fa-cog">&nbsp;</em> 个人信息设置</a></li>
+				<li>
+					<a href="javascript:" id="sidebar-logout" th:value="@{/logout}"><em class="fa fa-sign-out">&nbsp;</em> 登出</a>
+				</li>
+			</ul>
+		</div><!--/.sidebar-->
+
+		<div class="row" th:fragment="breadcrumb(title)">
+			<ol class="breadcrumb">
+				<li><a href="index">
+					<em class="fa fa-home" style="font-size: 16px;"></em>
+				</a></li>
+				<li class="active">[[${title}]]</li>
+			</ol>
+		</div><!--/.row-->
+
+		<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+			<div class="row">
+				<ol class="breadcrumb">
+					<li><a href="#">
+						<em class="fa fa-home"></em>
+					</a></li>
+					<li class="active">Forms</li>
+				</ol>
+			</div><!--/.row-->
+			
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Forms</h1>
+				</div>
+			</div><!--/.row-->
+			
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix">Inputs</div>
+						<div class="panel-body">
+							<form class="form-horizontal row-border" action="#">
+								<div class="form-group">
+									<label class="col-md-2 control-label">Default input field</label>
+									<div class="col-md-10">
+										<input type="text" name="regular" class="form-control">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-2 control-label">Password</label>
+									<div class="col-md-10">
+										<input class="form-control" type="password" name="pass">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-2 control-label">With placeholder</label>
+									<div class="col-md-10">
+										<input class="form-control" type="text" name="placeholder" placeholder="placeholder">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-2 control-label">Disabled field</label>
+									<div class="col-md-10">
+										<input type="text" name="disabled" disabled="disabled" value="disabled" class="form-control">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-2 control-label">Read only field</label>
+									<div class="col-md-10">
+										<input class="form-control" type="text" name="readonly" readonly="" value="read only">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-2 control-label">Help text</label>
+									<div class="col-md-10">
+									<input type="text" name="regular" class="form-control"><span class="help-block">A block of help text that breaks onto a new line and may extend beyond one line.</span></div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-2 control-label">Predefined value</label>
+									<div class="col-md-10">
+										<input type="text" name="regular" value="http://" class="form-control">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-2 control-label">Column sizing</label>
+									<div class="col-md-10">
+										<div class="row">
+											<div class="col-xs-3">
+												<input type="text" class="form-control" placeholder=".col-xs-3">
+											</div>
+											<div class="col-xs-5">
+												<input type="text" class="form-control" placeholder=".col-xs-5">
+											</div>
+											<div class="col-xs-4">
+												<input type="text" class="form-control" placeholder=".col-xs-4">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group has-success">
+									<label class="col-md-2 control-label">Input success</label>
+									<div class="col-md-10">
+									<input type="text" class="form-control" id="inputSuccess" placeholder="Input Success"><i class="icon-pencil input-icon success"></i></div>
+								</div>
+								<div class="form-group has-warning">
+									<label class="col-md-2 control-label">Input warning</label>
+									<div class="col-md-10">
+									<input type="text" class="form-control" id="inputWarning" placeholder="Input Warning"><i class="icon-pencil input-icon warning"></i></div>
+								</div>
+								<div class="form-group has-error">
+									<label class="col-md-2 control-label">Input error</label>
+									<div class="col-md-10">
+									<input type="text" class="form-control" id="inputError" placeholder="Input Error"><i class="icon-pencil input-icon error"></i></div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div><!--/.row-->
+			
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix">Input Groups</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-4 col-sm-4">
+									<div class="input-group"><span class="input-group-addon">@</span>
+										<input type="text" class="form-control" placeholder="Username">
+									</div>
+								</div>
+								<div class="col-lg-4 col-sm-4">
+									<div class="input-group">
+									<input type="text" class="form-control"><span class="input-group-addon">.00</span></div>
+								</div>
+								<div class="col-lg-4 col-sm-4">
+									<div class="input-group"><span class="input-group-addon">$</span>
+									<input type="text" class="form-control"><span class="input-group-addon">.00</span></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div><!--/.row-->
+			
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix">Button Addons</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-6 col-sm-6 col-sx-6">
+									<div class="input-group"><span class="input-group-btn">
+										<button class="btn btn-default" type="button" title="">Go!</button>
+										</span>
+										<input type="text" class="form-control">
+									</div>
+								</div>
+								<div class="col-lg-6 col-sm-6 col-sx-6">
+									<div class="input-group">
+										<input type="text" class="form-control"><span class="input-group-btn">
+											<button class="btn btn-default" type="button" data-original-title="" title="">Submit!</button>
+									</span></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div><!--/.row-->
+			
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix">Check boxes</div>
+						<div class="panel-body">
+							<label class="checkbox-inline">
+								<input type="checkbox" id="inlineCheckbox1" value="option1" checked="">1
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" id="inlineCheckbox2" value="option2">2
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" id="inlineCheckbox3" value="option3" disabled="">3
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix">Radio buttons</div>
+						<div class="panel-body">
+							<label class="radio-inline">
+								<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">1
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">2
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="optionsRadios" id="optionsRadios3" value="option2" disabled="">3
+							</label>
+						</div>
+					</div>
+				</div>
+			</div><!--/.row-->
+			
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix">Check Boxes &amp; Radio Addons</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-3 col-sm-3">
+									<div class="input-group"><span class="input-group-addon">
+										<input type="checkbox">
+										</span>
+										<input type="text" class="form-control">
+									</div>
+								</div>
+								<div class="col-md-3 col-sm-3">
+									<div class="input-group"><span class="input-group-addon">
+										<input type="checkbox" checked="">
+										</span>
+										<input type="text" class="form-control">
+									</div>
+								</div>
+								<div class="col-md-3 col-sm-3">
+									<div class="input-group"><span class="input-group-addon">
+										<input type="radio" name="optionsRadio" id="optionsRadiosX" value="optionx">
+										</span>
+										<input type="text" class="form-control">
+									</div>
+								</div>
+								<div class="col-md-3 col-sm-3">
+									<div class="input-group"><span class="input-group-addon">
+										<input type="radio" name="optionsRadio" id="optionsRadiosY" value="optiony" checked="">
+										</span>
+										<input type="text" class="form-control">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div><!--/.row-->
+						
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix">Inline Form</div>
+						<div class="panel-body">
+							<form class="form-inline" role="form">
+								<div class="form-group">
+									<label class="sr-only" for="exampleInputEmail2">Email address</label>
+									<input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
+								</div>
+								<div class="form-group">
+									<label class="sr-only" for="exampleInputPassword2">Password</label>
+									<input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
+								</div>
+								<button type="submit" class="btn btn-primary btn-lg" title="">Sign in</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div><!--/.row-->
+					
+			
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix">Input Sizing</div>
+						<div class="panel-body">
+							<div class="input-group input-group-lg"><span class="input-group-addon">@</span>
+								<input type="text" class="form-control input-lg" placeholder="Username">
+							</div>
+							<br>
+							<div class="input-group"><span class="input-group-addon">$</span>
+								<input type="text" class="form-control" placeholder="Currency">
+							</div>
+							<br>
+							<div class="input-group input-group-sm"><span class="input-group-addon">{}</span>
+								<input type="text" class="form-control" placeholder="Code">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix">Height Sizing</div>
+						<div class="panel-body">
+							<select class="form-control input-lg">
+								<option value="">.input-lg</option>
+							</select>
+							<br>
+							<select class="form-control">
+								<option value="">Default select</option>
+							</select>
+							<br>
+							<select class="form-control input-sm">
+								<option value="">.input-sm</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div><!--/.row-->
+				
+			 
+				
+				
+
+			
+			<div class="col-sm-12">
+				<p class="back-link">Lumino Theme by <a href="https://www.medialoot.com/">Medialoot</a></p>
+			</div>
+		</div><!-- /.row -->
+		</div><!--/.main-->
+
+		<div id="sidebar-modal-tip" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="mySmallModalLabel">信息</h4>
+					</div>
+					<div class="modal-body"></div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		
+	</body>
+
+<!-- Mirrored from medialoot.com/preview/lumino-premium/forms.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 11 Mar 2019 01:56:20 GMT -->
+</html>

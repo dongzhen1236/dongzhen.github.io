@@ -1,0 +1,80 @@
+body{
+    font-family: sans-serif;
+}
+
+#sidebar-top a:hover{
+    cursor: pointer;
+}
+#tools-menu a:hover{
+    background-color: #956bc0;
+    color: #fff;
+}
+
+/*Navbar悬停展开*/
+/*采用js实现，增加延时*/
+/*.nav > li:hover .dropdown-menu {*/
+    /*display: block;*/
+/*}*/
+
+.dropdown-menu{
+    margin: 0px -3px;
+}
+
+.mask {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    filter: alpha(opacity=60);
+    background: rgba(49, 46, 51, 1) url("../images/1831f5d788adb741537f7468c32acea0.gif") no-repeat center top;
+    z-index: 99999;
+    left: 0px;
+    opacity: 0.5;
+    -moz-opacity: 0.5;
+    display: none;
+}
+
+thead th {
+    padding: 0;
+    margin: 0;
+    background-color: #d9edf7 !important;
+}
+
+thead th .sortable {
+    /*background-image: url('/Content/css/plugins/images/sort_sort.png');*/
+    cursor: pointer;
+    /*background-position: right;*/
+    /*background-repeat: no-repeat;*/
+    /*padding-right: 30px;*/
+}
+
+/* 提示框上边距 */
+.toast-top-center{
+    top: 62px !important;
+}
+
+/*表头点击时出现框*/
+thead th{
+    outline: none;
+    /*cursor: pointer;*/
+}
+
+/* 左侧菜单栏水平分割线不生效*/
+.sidebar ul.nav li.divider {
+    border-bottom: 1px solid #eee;
+    margin: 20px 0;
+}
+
+/* 覆盖默认左侧菜单栏高度，缩小间距 */
+.sidebar ul.nav li a {
+    height: 44px;
+    font-size: 15px;
+    line-height: 26px;
+    color: #444444;
+}
+
+/* 系统菜单默认隐藏 */
+#sidebar-system, #sidebar-system li {
+    display: none;
+}

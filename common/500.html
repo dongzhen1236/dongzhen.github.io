@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>hhxx</title>
+
+    <link th:href="@{/assets/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/layout.css}" rel="stylesheet"/>
+
+    <style rel="stylesheet">
+        .row{
+            margin: auto;
+        }
+    </style>
+
+    <!--[if lt IE 9]>
+    <script th:src="@{/assets/js/html5shiv.min.js}"></script>
+    <script th:src="@{/assets/js/respond.min.js}"></script>
+    <![endif]-->
+</head>
+<body onload="showMask()">
+<div class="row">
+    <div class="col-lg-6 col-lg-offset-3">
+        <div class="error-page text-center">
+            <h1>500</h1>
+            <h1>服务器错误</h1>
+            <h4>服务器处理出现错误，请联系管理员或点击下面的按钮，返回首页。</h4>
+            <br/>
+            <a th:href="@{/index}" class="btn btn-lg btn-primary">返回首页</a>
+        </div>
+    </div><!-- /.col-->
+</div><!-- /.row -->
+
+</body>
+</html>

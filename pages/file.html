@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>统计文件</title>
+		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+		<link href="assets/css/font-awesome.min.css" rel="stylesheet">
+		<link href="assets/css/datepicker3.css" rel="stylesheet">
+		<link href="assets/css/bootstrap-table.css" rel="stylesheet">
+		<link href="assets/css/styles.css" rel="stylesheet">
+		<link href="assets/css/common.css" rel="stylesheet">
+
+		<link href="plugins/toastr/toastr.min.css" rel="stylesheet">
+		<!--toastr.js uses jQuery, so jQuery should get loaded before toastr.js-->
+		<script src="plugins/toastr/jquery.min.js"></script>
+		<script src="plugins/toastr/toastr.min.js"></script>
+
+		<!--Custom Font-->
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+		<!--[if lt IE 9]>
+		<script src="assets/js/html5shiv.min.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+	<style type="text/css">
+		.panel {
+			border: 0;
+			margin-top: 15px;
+		}
+	</style>
+	</head>
+	<body>
+		<!-- 引入导航栏 -->
+		<div th:replace="~{common/sidebar::nav}"></div>
+		<!-- 引入左侧菜单 -->
+		<div th:replace="~{common/sidebar::menu('file','file')}"></div>
+			
+		<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+			<!-- 引入面包屑导航（Breadcrumbs）传入导航栏标题 -->
+			<div th:replace="~{common/sidebar::breadcrumb('文件大小统计')}"></div>
+
+			<div class="row">
+				<div class="col-lg-12">
+<!--					<h1 class="page-header">Forms</h1>-->
+				</div>
+			</div><!--/.row-->
+			
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix">统计文件/文件夹大小</div>
+						<div class="panel-body">
+							<form class="form-horizontal row-border">
+								<input type="hidden" name="aa" class="form-control">
+								<div class="form-group">
+									<div class="col-md-2"></div>
+									<div class="col-md-3">
+										<input type="checkbox" name="hasChild">遍历三级目录
+									</div>
+									<div><span style="color: red">注</span>:统计系统根目录时使用盘符+:\ (例 c:\)</div>
+								</div>
+								<div class="form-group">
+									<label for="path" class="col-md-2 control-label">文件/文件夹路径</label>
+									<div class="col-md-10">
+										<div class="input-group">
+											<input type="text" id="path" name="path" class="form-control" onkeydown="if(event.keyCode==13) return false;">
+											<span class="input-group-btn">
+												<a class="btn btn-primary btn-lg btn-submit-path">提交</a>
+											</span>
+										</div>
+									</div>
+								</div>
+
+<!--								<div class="form-group">-->
+<!--									<div class="col-md-12" style="text-align: right">-->
+<!--										<a class="btn btn-primary btn-sm btn-submit-path">提交</a>-->
+<!--									</div>-->
+<!--								</div>-->
+							</form>
+<!--							<table id="file-result" data-toggle="table"  data-show-refresh="true" data-show-toggle="true"-->
+<!--								   data-show-columns="true" data-search="true" data-select-item-name="toolbar1"-->
+<!--								   data-pagination="true" data-sort-name="name" data-sort-order="desc">-->
+							<!--<button class="btn btn-primary delete-all" data-toggle="modal">清空数据</button>-->
+							<table id="file-result">
+								<thead>
+									<tr>
+										<th data-formatter="_showNum" data-align="center">#</th>
+										<th data-field="path" data-formatter="_showPath" data-sortable="true">路径<i class="fa fa-fw fa-sort"></i></th>
+										<th data-field="updateTime" data-formatter="_showTime" data-sortable="true">修改时间<i class="fa fa-fw fa-sort"></i></th>
+										<th data-field="fileSize" data-formatter="_showFileSize" data-align="center" data-sortable="true">
+											文件大小<i class="fa fa-fw fa-sort"></i>
+										<th data-field="createTime" data-formatter="_showTime" data-sortable="true">创建时间<i class="fa fa-fw fa-sort"></i></th>
+										<th data-field="level" data-sortable="true">层级<i class="fa fa-fw fa-sort"></i></th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div><!--/.row-->
+
+		</div><!--/.main-->
+
+		<div id="file-result-toolbar">
+			<button class="btn btn-primary delete-all" data-toggle="modal">清空数据</button>
+		</div>
+
+		<div class="mask"><div style="color: #fff;text-align: center;">loading...</div></div>
+		<!-- 提示框 -->
+		<div th:replace="~{common/sidebar::#sidebar-modal-tip}"></div>
+
+		<script src="assets/js/jquery-1.11.1.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/chart.min.js"></script>
+		<script src="assets/js/chart-data.js"></script>
+		<script src="assets/js/easypiechart.js"></script>
+		<script src="assets/js/easypiechart-data.js"></script>
+		<script src="assets/js/bootstrap-datepicker.js"></script>
+		<script src="assets/js/custom.js"></script>
+		<!--<script src="assets/js/bootstrap-table.js"></script>-->
+		<script src="assets/js/bootstrap-table.min.js"></script>
+		<script src="assets/js/bootstrap-table-zh-CN.min.js"></script>
+		<script src="assets/js/common.js"></script>
+		<script src="assets/js/ewin.js"></script>
+
+	</body>
+	<script>
+
+		function _showNum(value, row, index) {
+			//获取每页显示的数量
+			var pageSize=$('#file-result').bootstrapTable('getOptions').pageSize;
+			//获取当前是第几页
+			var pageNumber=$('#file-result').bootstrapTable('getOptions').pageNumber;
+			//返回序号，注意index是从0开始的，所以要加上1
+			return pageSize * (pageNumber - 1) + index + 1;
+		}
+
+		function _showPath(value, row, index){
+			if (row.fileType == "FILE"){
+				// return '<span class="fa fa-file" style="color: wheat"></span>'+value;
+				return '<img src="assets/images/file.PNG"></img>'+value;
+			} else {
+				// return '<span class="fa fa-folder"></span>'+value;
+				return '<img src="assets/images/folder.PNG"></img>'+value;
+			}
+		}
+
+		function _showTime(value, row, index){
+		    if (value){
+                return (new Date(value)).toLocaleString();
+			}
+		}
+
+		function _showFileSize(value, row, index){
+            return changeKB(value);
+		}
+
+        $(".delete-all").click(function() {
+            Ewin.confirm("确认要清空所有数据吗？").on(function (e) {
+				if (e) {
+				    $.get("phoneFile/deleteAll",function(result){
+				        if (result.status){
+                            Ewin.alert("删除成功");
+                            refleshTable("file-result");
+                            return;
+						}
+                        Ewin.alert(result.msg);
+					})
+				}
+			});
+        });
+
+		$(".btn-submit-path").click(function() {
+			var path = $("#path").val();
+			if (path == null || path == ''){
+                showTip("提示", "路径不能为空");
+				return;
+			}
+            showMask();
+			var data = $(".form-horizontal.row-border").serializeArray();
+			$.post("phoneFile/save",data,function(r, status){
+				console.log(r);
+                hideMask();
+				if (r.status){
+                    showTip("执行完成");
+                    // $('#file-result').bootstrapTable({ data: r.data});
+					// $(".panel.panel-default").find("button[name='refresh']").click();
+                    refleshTable("file-result");
+				} else{
+                    showTip(r.msg);
+				}
+			});
+		});
+
+		$('#file-result').bootstrapTable({
+			method: 'get',				//使用get请求到服务器获取数据
+			url: "phoneFile/search",		//url一般是请求后台的url地址,调用ajax获取数据。
+            toolbar: '#file-result-toolbar',        // 工具按钮用哪个容器
+			striped: true,				// 隔行加亮
+			dataType: "json",
+			queryParamsType: "limit",	//设置为"undefined",可以获取pageNumber，pageSize，searchText，sortName，sortOrder
+										//设置为"limit",符合 RESTFul 格式的参数,可以获取limit, offset, search, sort, order
+			singleSelect: true,
+			showToggle: true,    		//是否显示详细视图和列表视图
+			clickToSelect: true,        //是否启用点击选中行
+			contentType: "application/x-www-form-urlencoded",
+			pageSize: 10,				//每页的记录行数（*）
+			pageList: [10, 25, 50],     //可供选择的每页的行数（*）
+            smartDisplay: false,		//解决pageList只显示前两个参数
+			pageNumber:1,				//初始化加载第一页，默认第一页
+			pagination: true,   		//是否显示分页（*）
+            sortable: true,         	//是否启用排序
+            search: true,				//是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+			showColumns: true,			//是否显示所有的列
+            minimumCountColumns: 2,     //最少允许的列数
+			showRefresh: true,			//是否显示刷新按钮
+			sidePagination: "server", 	//分页方式：client客户端分页，server服务端分页（*）
+			queryParams: function(params) {
+			    console.log(params);
+				return {
+                    search: $(".search").find("input").val(),
+                    offset: params.offset / params.limit,
+                    limit: params.limit,
+                    sort: params.sort,
+					order: params.order
+				};
+			},
+			responseHandler: function(res) {
+				return {
+					"rows": res.data,
+					"total": res.total
+				};
+			}
+		});
+        _initTheadSort("file-result");
+	</script>
+<!-- Mirrored from medialoot.com/preview/lumino-premium/forms.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 11 Mar 2019 01:56:20 GMT -->
+</html>
