@@ -158,19 +158,19 @@ $(function (){
     });
 
     // 加载登录用户
-    $(".profile-usertitle-name").load("system/user/loginUser");
+    // $(".profile-usertitle-name").load("system/user/loginUser");
 
     // 判断是否显示系统菜单
-    $.get("system/user/loginUserInfo",null,function (user) {
-        console.log(user);
-        if (user && user.pagesStr){
-            $("#sidebar-system").css("display", "block");
-            var pages = user.pagesStr.split(",");
-            for (var i = 0; i < pages.length; i++) {
-                $("#sidebar-system").find("li#li-" + pages[i]).css("display", "block");
-            }
-        }
-    })
+    // $.get("system/user/loginUserInfo",null,function (user) {
+    //     console.log(user);
+    //     if (user && user.pagesStr){
+    //         $("#sidebar-system").css("display", "block");
+    //         var pages = user.pagesStr.split(",");
+    //         for (var i = 0; i < pages.length; i++) {
+    //             $("#sidebar-system").find("li#li-" + pages[i]).css("display", "block");
+    //         }
+    //     }
+    // })
 });
 
 // 排序时动态切换图标
@@ -190,44 +190,44 @@ function _initTheadSort(tableId){
 // 初始化bootstrap-table
 function initTable(tableId, dataUrl){
     _initTheadSort(tableId);    // 初始化排序图标
-    $('#'+tableId).bootstrapTable({
-        method: 'get',				//使用get请求到服务器获取数据
-        url: dataUrl,		//url一般是请求后台的url地址,调用ajax获取数据。
-        striped: true,				// 隔行加亮
-        dataType: "json",
-        queryParamsType: "limit",	//设置为"undefined",可以获取pageNumber，pageSize，searchText，sortName，sortOrder
-        //设置为"limit",符合 RESTFul 格式的参数,可以获取limit, offset, search, sort, order
-        singleSelect: true,
-        showToggle: true,    		//是否显示详细视图和列表视图
-        clickToSelect: true,        //是否启用点击选中行
-        contentType: "application/x-www-form-urlencoded",
-        pageSize: 10,				//每页的记录行数（*）
-        pageList: [10, 25, 50],     //可供选择的每页的行数（*）
-        smartDisplay: false,		//解决pageList只显示前两个参数
-        pageNumber:1,				//初始化加载第一页，默认第一页
-        pagination: true,   		//是否显示分页（*）
-        sortable: true,         	//是否启用排序
-        search: true,				//是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
-        showColumns: true,			//是否显示所有的列
-        minimumCountColumns: 2,     //最少允许的列数
-        showRefresh: true,			//是否显示刷新按钮
-        sidePagination: "server", 	//分页方式：client客户端分页，server服务端分页（*）
-        queryParams: function(params) {
-            return {
-                search: $(".search").find("input").val(),
-                offset: params.offset / params.limit,
-                limit: params.limit,
-                sort: params.sort,
-                order: params.order
-            };
-        },
-        responseHandler: function(res) {
-            return {
-                "rows": res.data,
-                "total": res.total
-            };
-        }
-    });
+    // $('#'+tableId).bootstrapTable({
+    //     method: 'get',				//使用get请求到服务器获取数据
+    //     url: dataUrl,		//url一般是请求后台的url地址,调用ajax获取数据。
+    //     striped: true,				// 隔行加亮
+    //     dataType: "json",
+    //     queryParamsType: "limit",	//设置为"undefined",可以获取pageNumber，pageSize，searchText，sortName，sortOrder
+    //     //设置为"limit",符合 RESTFul 格式的参数,可以获取limit, offset, search, sort, order
+    //     singleSelect: true,
+    //     showToggle: true,    		//是否显示详细视图和列表视图
+    //     clickToSelect: true,        //是否启用点击选中行
+    //     contentType: "application/x-www-form-urlencoded",
+    //     pageSize: 10,				//每页的记录行数（*）
+    //     pageList: [10, 25, 50],     //可供选择的每页的行数（*）
+    //     smartDisplay: false,		//解决pageList只显示前两个参数
+    //     pageNumber:1,				//初始化加载第一页，默认第一页
+    //     pagination: true,   		//是否显示分页（*）
+    //     sortable: true,         	//是否启用排序
+    //     search: true,				//是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+    //     showColumns: true,			//是否显示所有的列
+    //     minimumCountColumns: 2,     //最少允许的列数
+    //     showRefresh: true,			//是否显示刷新按钮
+    //     sidePagination: "server", 	//分页方式：client客户端分页，server服务端分页（*）
+    //     queryParams: function(params) {
+    //         return {
+    //             search: $(".search").find("input").val(),
+    //             offset: params.offset / params.limit,
+    //             limit: params.limit,
+    //             sort: params.sort,
+    //             order: params.order
+    //         };
+    //     },
+    //     responseHandler: function(res) {
+    //         return {
+    //             "rows": res.data,
+    //             "total": res.total
+    //         };
+    //     }
+    // });
 }
 // 显示行号
 function _showNum(tableId, index) {
