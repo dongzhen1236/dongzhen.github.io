@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>openCSDN</title>
+
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+    <script src="../assets/vue/2.7.13/vue.js"></script>
+    <!-- 生产环境版本，优化了尺寸和速度 -->
+     <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script>-->
+
+    <!--<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+    <link rel="stylesheet" href="../assets/element-ui/2.15.10/index.css">
+    <script src="../assets/element-ui/2.15.10/index.js"></script>
+
+</head>
+<body>
+    <div id="app" style="margin-left: 20px;">
+
+        <!--indeterminate 属性用以表示 checkbox 的不确定状态，一般用于实现全选的效果-->
+        <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange" style="margin: 10px;">全选</el-checkbox>
+        <el-checkbox-group v-model="selectList" @change="handleCheckedChange">
+            <div v-for="item in dataList" style="margin: 10px;">
+                <el-checkbox :label="item" :key="item"><a :href="item.url" target="_blank">{{item.title}}</a><br></el-checkbox>
+            </div>
+        </el-checkbox-group>
+
+        <div style="margin-top: 50px;"></div>
+        <el-button type='warning' @click="start">开始</el-button>
+        <el-button type='primary' @click="pause">暂停</el-button>
+
+        <div style="margin-top: 20px;"></div>
+        <!--<div v-show="showPercentage">{{time}}S</div>-->
+        <!--Progress 组件可通过
+            stroke-width 属性更改进度条的高度，并可通过
+            text-inside 属性来将进度条描述置于进度条内部
+            width 环形进度条画布宽度（只在 type 为 circle 或 dashboard 时可用）
+            format 属性来指定进度条文字内容。-->
+        <el-progress v-show="showPercentage" type="circle" :percentage="percentage" :stroke-width="15" width="200" color="rgb(230, 162, 60)" :format="format"></el-progress>
+
+    </div>
+    </body>
+    <script>
+
+        new Vue({
+            el: '#app',
+            data: {
+                /*dataList: [{
+                    url: 'https://blog.csdn.net/csdndz/article/details/100762717',
+                    name: 'Hystrix的/hystrix.stream端点404',
+                }, {
+                    url: 'https://blog.csdn.net/csdndz/article/details/101542214',
+                    name: 'spring-data-jpa一对多、多对多双向关联，查询操作的时候进入死循环问题',
+                }, {
+                    url: 'https://blog.csdn.net/csdndz/article/details/102623631',
+                    name: '两个嵌套的标签分别绑定不用的点击事件 - JS阻止事件冒泡',
+                }, {
+                    url: 'https://blog.csdn.net/csdndz/article/details/107363198',
+                    name: 'Oracle同一字段有数字和字母时进行排序',
+                }, {
+                    url: 'https://blog.csdn.net/csdndz/article/details/115343283',
+                    name: 'POI读取Word文件之后，文件一直被占用，无法删除',
+                }, {
+                    url: 'https://blog.csdn.net/csdndz/article/details/123020435',
+                    name: 'Oracle查询各组最大值的前几位、最小值的前几位和出现次数',
+                }],*/
+				dataList: [],
+                selectList: [], // 选中的集合
+                checkAll: false,
+                isIndeterminate: true,
+                showPercentage: false,
+                percentage: 0,  // 定时的进度
+                time: 5,   // 定时多少秒
+                timer: null, // 定时器
+                wins: [],   // 多个窗口
+            },
+            methods: {
+				getUrlList() {
+					/*$.get("https://blog.csdn.net/community/home-api/v1/get-business-list?businessType=blog&username=csdndz", function(res){
+						console.log(res);
+					})*/
+					fetch("https://blog.csdn.net/community/home-api/v1/get-business-list?businessType=blog&username=csdndz")
+					.then(res=>res.json())
+					.then(res => {
+						this.dataList = res.data.list;
+						this.handleCheckAllChange([]);
+						});
+				},
+                handleCheckAllChange(val) {
+                    this.selectList = val ? this.dataList : [];
+                    this.isIndeterminate = false;
+                },
+                handleCheckedChange(value) {
+                    let checkedCount = value.length;
+                    this.checkAll = checkedCount === this.dataList.length;
+                    this.isIndeterminate = checkedCount > 0 && checkedCount < this.dataList.length;
+                },
+                start(){
+                    if(this.timer == null) {
+                        this.timer = setInterval( () => {
+                            this.time--;
+                            this.percentage = ((1 - this.time/60)*100).toFixed(1);
+                            if (this.time < 0){
+                                this.time = 59;
+                                this.percentage = 1;
+                                this.openPage();
+                            }
+                        }, 1000)
+                    }
+                    this.showPercentage = true;
+                },
+                openPage(){
+                    var that = this;
+                    this.selectList.forEach(function(data, index){
+                        if (!that.wins[index]){
+                            that.wins[index] = window.open("_blank"+index);
+                        }
+                        that.wins[index].location = data.url;
+                    });
+                },
+                pause(){
+                    clearInterval(this.timer);
+                    this.timer = null;
+                    // this.showPercentage = false;
+                },
+                format(percentage) {
+                    return this.time < 1 ? 'open...' : this.time+`S`;
+                }
+            },
+            created: function () {
+				this.getUrlList();
+                this.selectList = this.dataList;
+                this.checkAll = true;
+                this.isIndeterminate = false;
+                // 每次进入界面时，先清除之前的所有定时器，然后启动新的定时器
+                clearInterval(this.timer);
+                this.timer = null
+                // this.start();
+            },
+            destroyed: function () {
+                // 每次离开当前界面时，清除定时器
+                clearInterval(this.timer);
+                this.timer = null
+            }
+        })
+    </script>
+</body>
+</html>
